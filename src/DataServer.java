@@ -107,6 +107,7 @@ class ClientHandler {
                 RegisterReq(req, res);
             } else if (req.code == RequestModel.LOAD_USER_BY_ID) {
             } else if (req.code == RequestModel.SAVE_POST_REQUEST) {
+                SaveAptReq(req, res);
             } else if (req.code == RequestModel.LOAD_POST_REQUEST) {
             } else if (req.code == RequestModel.LOAD_POST_BY_PRICE) {
             } else if (req.code == RequestModel.LOAD_POST_BY_TYPE) {
@@ -159,5 +160,18 @@ class ClientHandler {
             res.body = null;
         }
 
+    }
+
+    private void SaveAptReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for save apartment");
+        System.out.println("Body: " + req.body);
+        Apartment apartment = gson.fromJson(req.body, Apartment.class);
+        if (dao.saveApt(apartment)) {
+            res.code = ResponseModel.OK;
+            res.body = Integer.toString(apartment.getID());
+        } else {
+            res.code = ResponseModel.SAVE_FAILED;
+            res.body = null;
+        }
     }
 }

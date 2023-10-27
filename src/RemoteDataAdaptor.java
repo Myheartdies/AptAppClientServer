@@ -95,6 +95,7 @@ public class RemoteDataAdaptor implements DataAccess {
                 return false;
             } else {
                 user.setUserID(Integer.parseInt(res.body));
+                System.out.println("Register successful with new userID" + user.getUserID());
                 return true;
             }
         } catch (Exception ex) {
@@ -117,8 +118,29 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public boolean saveApt(Apartment post) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveApt'");
+        Conn();
+        String json = generateReq(RequestModel.SAVE_POST_REQUEST, post);
+        // System.out.println(json);
+        try {
+            ResponseModel res = getResponse(json);
+            // User user = gson.fromJson(res.body, User.class);
+
+            if (res.code == ResponseModel.UNKNOWN_REQUEST) {
+                System.out.println("The request is not recognized by the Server");
+                return false;
+            } else // this is a JSON string for a product information
+            if (res.code == ResponseModel.SAVE_FAILED) {
+                System.out.println("Posting failure");
+                return false;
+            } else {
+                post.setID(Integer.parseInt(res.body));
+                System.out.println("Save successful with new apartmentID " + post.getID());
+                return true;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     @Override
