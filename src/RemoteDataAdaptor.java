@@ -1,15 +1,50 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.sql.*;
 import java.util.*;
 import java.util.List;
 
 public class RemoteDataAdaptor implements DataAccess {
+    Gson gson = new Gson();
+    Socket s = null;
+    DataInputStream dis = null;
+    DataOutputStream dos = null;
+
+    String generateReq(int code, Object content) {
+        RequestModel req = new RequestModel();
+        req.code = code;
+        req.body = gson.toJson(content);
+        return gson.toJson(req);
+    }
+
+    ResponseModel getResponse(String jsonReq) {
+        try {
+            dos.writeUTF(jsonReq);
+            String received = dis.readUTF();
+            System.out.println("Server response:" + received);
+            return gson.fromJson(received, ResponseModel.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ResponseModel failure = new ResponseModel();
+        failure.code = ResponseModel.UNKNOWN_REQUEST;
+        return failure;
+    }
 
     @Override
     public void Conn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Conn'");
+        try {
+            s = new Socket("localhost", 5056);
+            dis = new DataInputStream(s.getInputStream());
+            dos = new DataOutputStream(s.getOutputStream());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
