@@ -5,5 +5,5 @@ public class ResponseModel {
     static public int SAVE_FAILED = 3; // Body will contain failure return value
 
     public int code;
-    public int body;
+    public String body;
 }

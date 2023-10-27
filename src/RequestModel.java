@@ -13,7 +13,7 @@ public class RequestModel {
   static public int SAVE_POST_WISHLIST = 401;
   static public int LOAD_POST_WISHLIST_USER = 402;
 
-  String code;
+  int code;
   String body;
 
 }
