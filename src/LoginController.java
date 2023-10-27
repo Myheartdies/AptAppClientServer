@@ -7,26 +7,26 @@ import java.awt.event.ActionEvent;
 public class LoginController {
     public void onLogin(ActionEvent e) {
         // if (e.getSource() == this.getBtnLogin()) {
-        String username = Application.getInstance().getLoginScreen().getTxtUserName().getText().trim();
-        String password = Application.getInstance().getLoginScreen().getTxtPassword().getText().trim();
+        String username = AptAppManager.getInstance().getLoginScreen().getTxtUserName().getText().trim();
+        String password = AptAppManager.getInstance().getLoginScreen().getTxtPassword().getText().trim();
 
         System.out.println("Login with username = " + username + " and password = " + password);
-        User user = Application.getInstance().getDataAdapter().loadUser(username, password);
+        User user = AptAppManager.getInstance().getDataAdapter().loadUser(username, password);
 
         if (user == null) {
             JOptionPane.showMessageDialog(null, "This user does not exist!");
         } else {
-            Application.getInstance().setCurrentUser(user);
-            Application.getInstance().getLoginScreen().setVisible(false);
-            Application.getInstance().getMainScreen().setVisible(true);
+            AptAppManager.getInstance().setCurrentUser(user);
+            AptAppManager.getInstance().getLoginScreen().setVisible(false);
+            AptAppManager.getInstance().getMainScreen().setVisible(true);
         }
     }
 
     public void onReg(ActionEvent e) {
-        String username = Application.getInstance().getRegScreen().getTxtUserName().getText().trim();
-        String password = Application.getInstance().getRegScreen().getTxtPassword().getText().trim();
-        String name = Application.getInstance().getRegScreen().getTxtFullName().getText().trim();
-        String email = Application.getInstance().getRegScreen().getTxtEmail().getText().trim();
+        String username = AptAppManager.getInstance().getRegScreen().getTxtUserName().getText().trim();
+        String password = AptAppManager.getInstance().getRegScreen().getTxtPassword().getText().trim();
+        String name = AptAppManager.getInstance().getRegScreen().getTxtFullName().getText().trim();
+        String email = AptAppManager.getInstance().getRegScreen().getTxtEmail().getText().trim();
 
         System.out.println(
                 "Register with username = " + username + " and password = " + password + " " + name + " " + email);
@@ -36,12 +36,12 @@ public class LoginController {
         user.setEmail(email);
         user.setPassword(password);
         // return;
-        if (Application.getInstance().getDataAdapter().AddUser(user)) {
+        if (AptAppManager.getInstance().getDataAdapter().AddUser(user)) {
             // If register is successful, log the user in
-            Application.getInstance().getRegScreen().setVisible(false);
-            Application.getInstance().getLoginScreen().setVisible(false);
-            Application.getInstance().setCurrentUser(user);
-            Application.getInstance().getMainScreen().setVisible(true);
+            AptAppManager.getInstance().getRegScreen().setVisible(false);
+            AptAppManager.getInstance().getLoginScreen().setVisible(false);
+            AptAppManager.getInstance().setCurrentUser(user);
+            AptAppManager.getInstance().getMainScreen().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "username already exists!");
             return;
@@ -50,9 +50,9 @@ public class LoginController {
         if (user == null) {
             JOptionPane.showMessageDialog(null, "This user does not exist!");
         } else {
-            Application.getInstance().setCurrentUser(user);
-            Application.getInstance().getLoginScreen().setVisible(false);
-            Application.getInstance().getMainScreen().setVisible(true);
+            AptAppManager.getInstance().setCurrentUser(user);
+            AptAppManager.getInstance().getLoginScreen().setVisible(false);
+            AptAppManager.getInstance().getMainScreen().setVisible(true);
         }
     }
 

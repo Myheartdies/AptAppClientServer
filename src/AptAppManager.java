@@ -1,12 +1,12 @@
 import java.sql.*;
 
-public class Application {
+public class AptAppManager {
 
-    private static Application instance; // Singleton pattern
+    private static AptAppManager instance; // Singleton pattern
 
-    public static Application getInstance() {
+    public static AptAppManager getInstance() {
         if (instance == null) {
-            instance = new Application();
+            instance = new AptAppManager();
         }
         return instance;
     }
@@ -33,7 +33,7 @@ public class Application {
     private MainScreen mainScreen = new MainScreen();
     private RegisterScreen regScreen = new RegisterScreen();
     private AptListScreen aptList = new AptListScreen();
-    private NewPostScreen postingScreen = new NewPostScreen();
+    private PostScreen postingScreen = new PostScreen();
 
     private AptDetailScreen aptDetailScreen = new AptDetailScreen();
 
@@ -41,7 +41,7 @@ public class Application {
         return aptDetailScreen;
     }
 
-    public NewPostScreen getPostingScreen() {
+    public PostScreen getPostingScreen() {
         return postingScreen;
     }
 
@@ -53,13 +53,13 @@ public class Application {
         return regScreen;
     }
 
-    private NewPostScreen newPostScreen = new NewPostScreen();
+    private PostScreen newPostScreen = new PostScreen();
 
     public MainScreen getMainScreen() {
         return mainScreen;
     }
 
-    public NewPostScreen getNewPostScreen() {
+    public PostScreen getNewPostScreen() {
         return newPostScreen;
     }
 
@@ -90,7 +90,7 @@ public class Application {
         return dataAdapter;
     }
 
-    private Application() {
+    private AptAppManager() {
         // create SQLite database connection here!
         try {
             Class.forName("org.sqlite.JDBC");
@@ -116,7 +116,4 @@ public class Application {
         aptListController = new AptListController(aptList);
     }
 
-    public static void main(String[] args) {
-        Application.getInstance().getLoginScreen().setVisible(true);
-    }
 }
