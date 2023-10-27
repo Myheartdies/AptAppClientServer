@@ -133,8 +133,26 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public Apartment loadAptByID(int postID) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadAptByID'");
+        Conn();
+        String json = generateReq(RequestModel.LOAD_POST_REQUEST, postID);
+        try {
+            ResponseModel res = getResponse(json);
+            Apartment apt = gson.fromJson(res.body, Apartment.class);
+
+            if (res.code == ResponseModel.UNKNOWN_REQUEST) {
+                System.out.println("The request is not recognized by the Server");
+                return null;
+            } else // this is a JSON string for a product information
+            if (res.code == ResponseModel.DATA_NOT_FOUND) {
+                System.out.println("The Server could not find an apartment with that ID!");
+                return null;
+            } else {
+                return apt;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -190,8 +208,26 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public User loadUserByID(int ID) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadUserByID'");
+        Conn();
+        String json = generateReq(RequestModel.LOAD_USER_BY_ID, ID);
+        try {
+            ResponseModel res = getResponse(json);
+            User user = gson.fromJson(res.body, User.class);
+
+            if (res.code == ResponseModel.UNKNOWN_REQUEST) {
+                System.out.println("The request is not recognized by the Server");
+                return null;
+            } else // this is a JSON string for a product information
+            if (res.code == ResponseModel.DATA_NOT_FOUND) {
+                System.out.println("The Server could not find an apartment with that ID!");
+                return null;
+            } else {
+                return user;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -107,9 +107,11 @@ class ClientHandler {
             } else if (req.code == RequestModel.SAVE_USER_REQEUST) {
                 RegisterReq(req, res);
             } else if (req.code == RequestModel.LOAD_USER_BY_ID) {
+                LoadUserByIDReq(req, res);
             } else if (req.code == RequestModel.SAVE_POST_REQUEST) {
                 SaveAptReq(req, res);
             } else if (req.code == RequestModel.LOAD_POST_REQUEST) {
+                LoadOneAptReq(req, res);
             } else if (req.code == RequestModel.LOAD_POST_BY_PRICE) {
             } else if (req.code == RequestModel.LOAD_POST_BY_TYPE) {
             } else if (req.code == RequestModel.LOAD_POST_ALL) {
@@ -188,6 +190,43 @@ class ClientHandler {
             res.code = ResponseModel.OK;
             res.body = gson.toJson(listings);
         }
+    }
 
+    private void LoadOneAptReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for single apartment info");
+        System.out.println("Body: " + req.body);
+        try {
+            Apartment apt = dao.loadAptByID(Integer.parseInt(req.body));
+            if (apt == null) {
+                res.code = ResponseModel.DATA_NOT_FOUND;
+                res.body = null;
+                return;
+            }
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(apt);
+        } catch (Exception e) {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = null;
+            e.printStackTrace();
+        }
+    }
+
+    private void LoadUserByIDReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for a user with userID");
+        System.out.println("Body: " + req.body);
+        try {
+            User user = dao.loadUserByID(Integer.parseInt(req.body));
+            if (user == null) {
+                res.code = ResponseModel.DATA_NOT_FOUND;
+                res.body = null;
+                return;
+            }
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(user);
+        } catch (Exception e) {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = null;
+            e.printStackTrace();
+        }
     }
 }
