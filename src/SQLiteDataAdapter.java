@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.List;
 import java.util.ArrayList;
 
-public class SQLDataAdapter implements DataAccess{
+public class SQLiteDataAdapter implements DataAccess {
     private Connection connection;
     private int lastPostID;
 
@@ -12,8 +12,25 @@ public class SQLDataAdapter implements DataAccess{
         return lastPostID;
     }
 
-    public SQLDataAdapter(Connection connection) {
+    public SQLiteDataAdapter(Connection connection) {
         this.connection = connection;
+    }
+
+    @Override
+    public void Conn() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            String url = "jdbc:sqlite:proto.db";
+            connection = DriverManager.getConnection(url);
+        } catch (ClassNotFoundException ex) {
+            System.out.println("SQLite is not installed. System exits with error!");
+            ex.printStackTrace();
+            System.exit(1);
+        } catch (SQLException ex) {
+            System.out.println("SQLite database is not ready. System exits with error!" + ex.getMessage());
+
+            System.exit(2);
+        }
     }
 
     // =====================
@@ -153,7 +170,7 @@ public class SQLDataAdapter implements DataAccess{
 
     // ======================
 
-public User loadUserByID(int id) {
+    public User loadUserByID(int id) {
         try {
 
             PreparedStatement statement = connection
@@ -205,12 +222,6 @@ public User loadUserByID(int id) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public void Conn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Conn'");
     }
 
     @Override

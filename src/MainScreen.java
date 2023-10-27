@@ -53,7 +53,7 @@ public class MainScreen extends JFrame {
         btnListing.addActionListener(new ActionListener() { // when controller is simple, we can declare it on the fly
             public void actionPerformed(ActionEvent e) {
                 AptListScreen aptListScreen = AptAppManager.getInstance().getAptList();
-                SQLDataAdapter dataAdapter = AptAppManager.getInstance().getDataAdapter();
+                SQLiteDataAdapter dataAdapter = AptAppManager.getInstance().getDataAdapter();
                 aptListScreen.setAptList(dataAdapter.loadAptList());
                 aptListScreen.setVisible(true);
             }
