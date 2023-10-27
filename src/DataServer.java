@@ -102,27 +102,10 @@ class ClientHandler {
             ResponseModel res = new ResponseModel();
             res.body = null;
             if (req.code == RequestModel.USER_LOGIN) {
-                System.out.println("The Client asks for load user");
-                System.out.println("Body: " + req.body);
-                ArrayList<String> args = gson.fromJson(req.body, new TypeToken<ArrayList<String>>() {
-                }.getType());
-                // System.out.println("Serialized ");
-                if (args.size() < 2) {
-                    res.code = ResponseModel.DATA_NOT_FOUND;
-                    res.body = null;
-                } else {
-                    User user = dao.loadUser(args.get(0), args.get(1));
-                    if (user != null) {
-                        res.code = ResponseModel.OK;
-                        res.body = gson.toJson(user);
-                    } else {
-                        res.code = ResponseModel.DATA_NOT_FOUND;
-                        // res.body = null;
-                    }
-                }
+                LoginReq(req, res);
             } else if (req.code == RequestModel.SAVE_USER_REQEUST) {
             } else if (req.code == RequestModel.LOAD_USER_BY_ID) {
-               
+
             } else if (req.code == RequestModel.SAVE_POST_REQUEST) {
             } else if (req.code == RequestModel.LOAD_POST_REQUEST) {
             } else if (req.code == RequestModel.LOAD_POST_BY_PRICE) {
@@ -141,6 +124,26 @@ class ClientHandler {
 
         IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void LoginReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for load user");
+        System.out.println("Body: " + req.body);
+        ArrayList<String> args = gson.fromJson(req.body, new TypeToken<ArrayList<String>>() {
+        }.getType());
+        // System.out.println("Serialized ");
+        if (args.size() < 2) {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = null;
+        } else {
+            User user = dao.loadUser(args.get(0), args.get(1));
+            if (user != null) {
+                res.code = ResponseModel.OK;
+                res.body = gson.toJson(user);
+            } else {
+                res.code = ResponseModel.DATA_NOT_FOUND;
+            }
         }
     }
 }
