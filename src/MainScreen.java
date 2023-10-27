@@ -52,8 +52,8 @@ public class MainScreen extends JFrame {
 
         btnListing.addActionListener(new ActionListener() { // when controller is simple, we can declare it on the fly
             public void actionPerformed(ActionEvent e) {
-                AptListScreen aptListScreen = Application.getInstance().getAptList();
-                DataAdapter dataAdapter = Application.getInstance().getDataAdapter();
+                AptListScreen aptListScreen = AptAppManager.getInstance().getAptList();
+                DataAdapter dataAdapter = AptAppManager.getInstance().getDataAdapter();
                 aptListScreen.setAptList(dataAdapter.loadAptList());
                 aptListScreen.setVisible(true);
             }
@@ -61,7 +61,7 @@ public class MainScreen extends JFrame {
 
         btnPost.addActionListener(new ActionListener() { // when controller is simple, we can declare it on the fly
             public void actionPerformed(ActionEvent e) {
-                Application.getInstance().getNewPostScreen().setVisible(true);
+                AptAppManager.getInstance().getNewPostScreen().setVisible(true);
             }
         });
         this.addWindowListener(new WindowAdapter() {
@@ -77,7 +77,7 @@ public class MainScreen extends JFrame {
     // on entering this window
     void onWindowOpen() {
         User currUser;
-        currUser = Application.getInstance().getCurrentUser();
+        currUser = AptAppManager.getInstance().getCurrentUser();
         if (currUser != null) {
             userLabel.setText("User: " + currUser.getUsername());
             nameLabel.setText("Name:" + currUser.getFullName());

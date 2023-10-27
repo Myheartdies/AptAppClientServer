@@ -16,21 +16,27 @@ public class AptDetailScreen extends JFrame {
     public void setPosterName(String s) {
         this.posterName.setText(s);
     }
+
     public void setType(String s) {
         this.type.setText(s);
     }
+
     public void setPosterEmail(String s) {
         this.posterEmail.setText(s);
     }
+
     public void setAvailableDate(String s) {
         this.availableDate.setText(s);
     }
+
     public void setDescri(String s) {
         this.descri.setText(s);
     }
+
     public void setArea(String s) {
         this.area.setText(s);
     }
+
     public void setPrice(String s) {
         this.price.setText(s);
     }
@@ -42,6 +48,7 @@ public class AptDetailScreen extends JFrame {
     public void setAddress(String s) {
         this.address.setText(s);
     }
+
     public AptDetailScreen() {
 
         this.setTitle("Create New Listing for Apartment");
@@ -92,9 +99,9 @@ public class AptDetailScreen extends JFrame {
         panelContent.add(posterEmailLabel);
         panelContent.add(posterEmail);
         SpringUtilities.makeCompactGrid(panelContent,
-                7, 2, //rows, cols
-                6, 6,        //initX, initY
-                6, 6);       //xPad, yPad
+                7, 2, // rows, cols
+                6, 6, // initX, initY
+                6, 6); // xPad, yPad
         this.getContentPane().add(panelContent);
 
         JPanel descrPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

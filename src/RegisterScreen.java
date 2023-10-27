@@ -59,7 +59,7 @@ public class RegisterScreen extends JFrame {
         btnReg.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Application.getInstance().getLoginScreenCtrl().onReg(e);
+                AptAppManager.getInstance().getLoginScreenCtrl().onReg(e);
             }
         }
 

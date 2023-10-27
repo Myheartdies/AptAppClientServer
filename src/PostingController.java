@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 
 
 public class PostingController implements ActionListener {
-    private NewPostScreen screen;
+    private PostScreen screen;
     private Apartment aptPost = null;
-    public PostingController(NewPostScreen screen) {
+    public PostingController(PostScreen screen) {
         this.screen = screen;
 
         screen.getBtnPost().addActionListener(this);
@@ -74,17 +74,17 @@ public class PostingController implements ActionListener {
         aptPost.setArea(area);
         aptPost.setAddress(address);
         aptPost.setAvailableDate(availableDateString);
-        aptPost.setPosterID(Application.getInstance().getCurrentUser().getUserID());
+        aptPost.setPosterID(AptAppManager.getInstance().getCurrentUser().getUserID());
         aptPost.setDescr(description);
-        if(Application.getInstance().getDataAdapter().savePost(aptPost)){
-            int postID = Application.getInstance().getDataAdapter().getLastPostID();
+        if(AptAppManager.getInstance().getDataAdapter().savePost(aptPost)){
+            int postID = AptAppManager.getInstance().getDataAdapter().getLastPostID();
             Object[] row = new Object[5];
             row[0] = postID;
             row[1] = aptPost.getAptName();
             row[2] = aptPost.getType();
             row[3] = aptPost.getPrice();
             row[4] = aptPost.getAddress();
-            Application.getInstance().getAptList().addRow(row);
+            AptAppManager.getInstance().getAptList().addRow(row);
             this.screen.setVisible(false);
         }
         else{

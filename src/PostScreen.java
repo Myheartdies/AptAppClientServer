@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class NewPostScreen extends JFrame {
+public class PostScreen extends JFrame {
 
     private JButton btnPost = new JButton("Post");
 
@@ -58,7 +58,7 @@ public class NewPostScreen extends JFrame {
     }
 
 
-    public NewPostScreen() {
+    public PostScreen() {
 
         this.setTitle("Create New Listing for Apartment");
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));

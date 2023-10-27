@@ -116,5 +116,4 @@ public class AptAppManager {
         aptListController = new AptListController(aptList);
     }
 
-
 }

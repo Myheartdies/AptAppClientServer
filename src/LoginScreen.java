@@ -52,13 +52,13 @@ public class LoginScreen extends JFrame {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        Application.getInstance().getRegScreen().setVisible(true);
+                        AptAppManager.getInstance().getRegScreen().setVisible(true);
                     }
                 });
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Application.getInstance().getLoginScreenCtrl().onLogin(e);
+                AptAppManager.getInstance().getLoginScreenCtrl().onLogin(e);
             }
         }
 
