@@ -12,9 +12,6 @@ public class SQLiteDataAdapter implements DataAccess {
         return lastPostID;
     }
 
-    public SQLiteDataAdapter(Connection connection) {
-        this.connection = connection;
-    }
 
     @Override
     public void Conn() {

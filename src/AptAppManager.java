@@ -18,7 +18,7 @@ public class AptAppManager {
         return connection;
     }
 
-    private SQLiteDataAdapter dataAdapter;
+    private DataAccess dataAccess;
 
     private User currentUser = null;
 
@@ -86,31 +86,14 @@ public class AptAppManager {
         return loginScreenCtrl;
     }
 
-    public SQLiteDataAdapter getDataAdapter() {
-        return dataAdapter;
+    public DataAccess getDataAccess() {
+        return dataAccess;
     }
 
     private AptAppManager() {
         // create SQLite database connection here!
-        try {
-            Class.forName("org.sqlite.JDBC");
 
-            String url = "jdbc:sqlite:proto.db";
-
-            connection = DriverManager.getConnection(url);
-            dataAdapter = new SQLiteDataAdapter(connection);
-
-        } catch (ClassNotFoundException ex) {
-            System.out.println("SQLite is not installed. System exits with error!");
-            ex.printStackTrace();
-            System.exit(1);
-        }
-
-        catch (SQLException ex) {
-            System.out.println("SQLite database is not ready. System exits with error!" + ex.getMessage());
-
-            System.exit(2);
-        }
+        dataAccess = new RemoteDataAdaptor();
 
         postingCtrl = new PostingController(newPostScreen);
         aptListController = new AptListController(aptList);

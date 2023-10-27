@@ -1,13 +1,13 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.awt.SystemTray;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.*;
 import java.util.*;
-import java.util.List;
 
 public class RemoteDataAdaptor implements DataAccess {
     Gson gson = new Gson();
@@ -24,7 +24,7 @@ public class RemoteDataAdaptor implements DataAccess {
 
     ResponseModel getResponse(String jsonReq) {
         try {
-            dos.writeUTF(jsonReq);
+            this.dos.writeUTF(jsonReq);
             String received = dis.readUTF();
             System.out.println("Server response:" + received);
             return gson.fromJson(received, ResponseModel.class);
@@ -38,19 +38,43 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public void Conn() {
+        System.out.println("connectiing");
         try {
-            s = new Socket("localhost", 5056);
-            dis = new DataInputStream(s.getInputStream());
-            dos = new DataOutputStream(s.getOutputStream());
+            this.s = new Socket("localhost", 9100);
+            this.dis = new DataInputStream(s.getInputStream());
+            this.dos = new DataOutputStream(s.getOutputStream());
+            System.out.println("connected");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     @Override
-    public User loadUser(String Username, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadUser'");
+    public User loadUser(String username, String password) {
+        Conn();
+        ArrayList<String> args = new ArrayList<>();
+        args.add(username);
+        args.add(password);
+        String json = generateReq(RequestModel.USER_LOGIN, args);
+        System.out.println(json);
+        try {
+            ResponseModel res = getResponse(json);
+            User user = gson.fromJson(res.body, User.class);
+
+            if (res.code == ResponseModel.UNKNOWN_REQUEST) {
+                System.out.println("The request is not recognized by the Server");
+                return null;
+            } else // this is a JSON string for a product information
+            if (res.code == ResponseModel.DATA_NOT_FOUND) {
+                System.out.println("The Server could not find a user with that ID!");
+                return null;
+            } else {
+                return user;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override

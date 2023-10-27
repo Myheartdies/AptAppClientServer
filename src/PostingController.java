@@ -4,10 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 public class PostingController implements ActionListener {
     private PostScreen screen;
     private Apartment aptPost = null;
+
     public PostingController(PostScreen screen) {
         this.screen = screen;
 
@@ -33,7 +33,7 @@ public class PostingController implements ActionListener {
         areaString = this.screen.getAreaField().getText();
         Double area = 0.0;
         try {
-            area =  Double.parseDouble(areaString);
+            area = Double.parseDouble(areaString);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "invalid area input");
             return;
@@ -42,7 +42,7 @@ public class PostingController implements ActionListener {
         priceString = this.screen.getPriceField().getText();
         Double price;
         try {
-            price =  Double.parseDouble(priceString);
+            price = Double.parseDouble(priceString);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "invalid price input");
             return;
@@ -51,20 +51,20 @@ public class PostingController implements ActionListener {
         type = (String) this.screen.getTypeSelect().getSelectedItem();
 
         propertyName = this.screen.getPropertyNameField().getText();
-        if (propertyName.length()<=0){
+        if (propertyName.length() <= 0) {
             JOptionPane.showMessageDialog(null, "property name cannot be empty");
             return;
         }
 
         availableDateString = this.screen.getDateField().getText();
-        if (availableDateString.length()<=0){
+        if (availableDateString.length() <= 0) {
             JOptionPane.showMessageDialog(null, "available date cannot be empty");
             return;
         }
         description = this.screen.getDescrField().getText();
 
-        address =this.screen.getAddressField().getText();
-        if (address.length()<=0){
+        address = this.screen.getAddressField().getText();
+        if (address.length() <= 0) {
             JOptionPane.showMessageDialog(null, "address date cannot be empty");
             return;
         }
@@ -76,8 +76,9 @@ public class PostingController implements ActionListener {
         aptPost.setAvailableDate(availableDateString);
         aptPost.setPosterID(AptAppManager.getInstance().getCurrentUser().getUserID());
         aptPost.setDescr(description);
-        if(AptAppManager.getInstance().getDataAdapter().saveApt(aptPost)){
-            int postID = AptAppManager.getInstance().getDataAdapter().getLastPostID();
+        if (AptAppManager.getInstance().getDataAccess().saveApt(aptPost)) {
+            // int postID = AptAppManager.getInstance().getDataAccess().getLastPostID();
+            int postID = 1111;
             Object[] row = new Object[5];
             row[0] = postID;
             row[1] = aptPost.getAptName();
@@ -86,8 +87,7 @@ public class PostingController implements ActionListener {
             row[4] = aptPost.getAddress();
             AptAppManager.getInstance().getAptList().addRow(row);
             this.screen.setVisible(false);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Unknown Error");
         }
     }

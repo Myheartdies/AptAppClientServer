@@ -11,7 +11,7 @@ public class LoginController {
         String password = AptAppManager.getInstance().getLoginScreen().getTxtPassword().getText().trim();
 
         System.out.println("Login with username = " + username + " and password = " + password);
-        User user = AptAppManager.getInstance().getDataAdapter().loadUser(username, password);
+        User user = AptAppManager.getInstance().getDataAccess().loadUser(username, password);
 
         if (user == null) {
             JOptionPane.showMessageDialog(null, "This user does not exist!");
@@ -36,7 +36,7 @@ public class LoginController {
         user.setEmail(email);
         user.setPassword(password);
         // return;
-        if (AptAppManager.getInstance().getDataAdapter().saveUser(user)) {
+        if (AptAppManager.getInstance().getDataAccess().saveUser(user)) {
             // If register is successful, log the user in
             AptAppManager.getInstance().getRegScreen().setVisible(false);
             AptAppManager.getInstance().getLoginScreen().setVisible(false);
