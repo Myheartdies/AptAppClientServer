@@ -104,8 +104,8 @@ class ClientHandler {
             if (req.code == RequestModel.USER_LOGIN) {
                 LoginReq(req, res);
             } else if (req.code == RequestModel.SAVE_USER_REQEUST) {
+                RegisterReq(req, res);
             } else if (req.code == RequestModel.LOAD_USER_BY_ID) {
-
             } else if (req.code == RequestModel.SAVE_POST_REQUEST) {
             } else if (req.code == RequestModel.LOAD_POST_REQUEST) {
             } else if (req.code == RequestModel.LOAD_POST_BY_PRICE) {
@@ -145,5 +145,19 @@ class ClientHandler {
                 res.code = ResponseModel.DATA_NOT_FOUND;
             }
         }
+    }
+
+    private void RegisterReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for save user");
+        System.out.println("Body: " + req.body);
+        User user = gson.fromJson(req.body, User.class);
+        if (dao.saveUser(user)) {
+            res.code = ResponseModel.OK;
+            res.body = Integer.toString(user.getUserID());
+        } else {
+            res.code = ResponseModel.SAVE_FAILED;
+            res.body = null;
+        }
+
     }
 }

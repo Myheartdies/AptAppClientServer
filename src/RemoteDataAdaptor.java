@@ -38,7 +38,7 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public void Conn() {
-        System.out.println("connectiing");
+        System.out.println("connecting");
         try {
             this.s = new Socket("localhost", 9100);
             this.dis = new DataInputStream(s.getInputStream());
@@ -79,8 +79,28 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public boolean saveUser(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveUser'");
+        Conn();
+        String json = generateReq(RequestModel.SAVE_USER_REQEUST, user);
+        // System.out.println(json);
+        try {
+            ResponseModel res = getResponse(json);
+            // User user = gson.fromJson(res.body, User.class);
+
+            if (res.code == ResponseModel.UNKNOWN_REQUEST) {
+                System.out.println("The request is not recognized by the Server");
+                return false;
+            } else // this is a JSON string for a product information
+            if (res.code == ResponseModel.SAVE_FAILED) {
+                System.out.println("Register Failure");
+                return false;
+            } else {
+                user.setUserID(Integer.parseInt(res.body));
+                return true;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     @Override
