@@ -106,8 +106,29 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public List<Apartment> loadAptList() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadAptList'");
+        Conn();
+        String json = generateReq(RequestModel.LOAD_POST_ALL, null);
+
+        try {
+            ResponseModel res = getResponse(json);
+            // User user = gson.fromJson(res.body, User.class);
+
+            if (res.code == ResponseModel.UNKNOWN_REQUEST) {
+                System.out.println("The request is not recognized by the Server");
+                return null;
+            } else // this is a JSON string for a product information
+            if (res.code == ResponseModel.DATA_NOT_FOUND) {
+                System.out.println("Register Failure");
+                return null;
+            } else {
+                ArrayList<Apartment> apts = gson.fromJson(res.body, new TypeToken<ArrayList<Apartment>>() {
+                }.getType());
+                return apts;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override

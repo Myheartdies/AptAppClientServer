@@ -100,6 +100,7 @@ class ClientHandler {
             }
 
             ResponseModel res = new ResponseModel();
+            res.code = ResponseModel.UNKNOWN_REQUEST;
             res.body = null;
             if (req.code == RequestModel.USER_LOGIN) {
                 LoginReq(req, res);
@@ -112,6 +113,7 @@ class ClientHandler {
             } else if (req.code == RequestModel.LOAD_POST_BY_PRICE) {
             } else if (req.code == RequestModel.LOAD_POST_BY_TYPE) {
             } else if (req.code == RequestModel.LOAD_POST_ALL) {
+                LoadAllApts(req, res);
             } else if (req.code == RequestModel.SAVE_POST_WISHLIST) {
             } else if (req.code == RequestModel.LOAD_POST_WISHLIST_USER) {
             }
@@ -173,5 +175,19 @@ class ClientHandler {
             res.code = ResponseModel.SAVE_FAILED;
             res.body = null;
         }
+    }
+
+    private void LoadAllApts(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for all apartment listings");
+        System.out.println("Body: " + req.body);
+        List<Apartment> listings = dao.loadAptList();
+        if (listings == null) {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = null;
+        } else {
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(listings);
+        }
+
     }
 }
