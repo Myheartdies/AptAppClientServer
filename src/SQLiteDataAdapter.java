@@ -93,6 +93,7 @@ public class SQLiteDataAdapter implements DataAccess {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 lastPostID = resultSet.getInt("ApartmentID");
+                post.setID(lastPostID);
             }
             resultSet.close();
             statement.close();
