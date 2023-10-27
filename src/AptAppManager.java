@@ -18,7 +18,7 @@ public class AptAppManager {
         return connection;
     }
 
-    private DataAdapter dataAdapter;
+    private SQLDataAdapter dataAdapter;
 
     private User currentUser = null;
 
@@ -86,7 +86,7 @@ public class AptAppManager {
         return loginScreenCtrl;
     }
 
-    public DataAdapter getDataAdapter() {
+    public SQLDataAdapter getDataAdapter() {
         return dataAdapter;
     }
 
@@ -98,7 +98,7 @@ public class AptAppManager {
             String url = "jdbc:sqlite:proto.db";
 
             connection = DriverManager.getConnection(url);
-            dataAdapter = new DataAdapter(connection);
+            dataAdapter = new SQLDataAdapter(connection);
 
         } catch (ClassNotFoundException ex) {
             System.out.println("SQLite is not installed. System exits with error!");

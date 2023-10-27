@@ -1,4 +1,4 @@
-public class WishPost {
+public class WishApt {
     private int wishPostID;
     private int postID;
     private int UserID;

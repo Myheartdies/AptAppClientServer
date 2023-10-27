@@ -1,8 +1,10 @@
+
 import java.sql.*;
+import java.util.*;
 import java.util.List;
 import java.util.ArrayList;
 
-public class DataAdapter {
+public class SQLDataAdapter implements DataAccess{
     private Connection connection;
     private int lastPostID;
 
@@ -10,12 +12,12 @@ public class DataAdapter {
         return lastPostID;
     }
 
-    public DataAdapter(Connection connection) {
+    public SQLDataAdapter(Connection connection) {
         this.connection = connection;
     }
 
     // =====================
-    public boolean AddUser(User user) {
+    public boolean saveUser(User user) {
         // currently only check username
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Users WHERE UserName = ?");
@@ -56,7 +58,7 @@ public class DataAdapter {
         return false;
     }
 
-    public boolean savePost(Apartment post) {
+    public boolean saveApt(Apartment post) {
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(
@@ -119,7 +121,7 @@ public class DataAdapter {
         return null;
     }
 
-    public Apartment loadApartment(int id) {
+    public Apartment loadAptByID(int id) {
         try {
             String query = "SELECT * FROM RentalApartments WHERE ApartmentID = " + id;
 
@@ -151,7 +153,7 @@ public class DataAdapter {
 
     // ======================
 
-    public User loadUserByID(int id) {
+public User loadUserByID(int id) {
         try {
 
             PreparedStatement statement = connection
@@ -204,4 +206,35 @@ public class DataAdapter {
         }
         return null;
     }
+
+    @Override
+    public void Conn() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Conn'");
+    }
+
+    @Override
+    public List<Apartment> loadAptByPrice(double min, double max) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'loadAptByPrice'");
+    }
+
+    @Override
+    public List<Apartment> loadAptByType(String type) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'loadAptByType'");
+    }
+
+    @Override
+    public WishApt saveApt2WishList(Post post) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'saveApt2WishList'");
+    }
+
+    @Override
+    public List<Integer> loadWishListByUserID(int userID) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'loadWishListByUserID'");
+    }
+
 }

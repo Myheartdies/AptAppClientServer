@@ -36,7 +36,7 @@ public class LoginController {
         user.setEmail(email);
         user.setPassword(password);
         // return;
-        if (AptAppManager.getInstance().getDataAdapter().AddUser(user)) {
+        if (AptAppManager.getInstance().getDataAdapter().saveUser(user)) {
             // If register is successful, log the user in
             AptAppManager.getInstance().getRegScreen().setVisible(false);
             AptAppManager.getInstance().getLoginScreen().setVisible(false);

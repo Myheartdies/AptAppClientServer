@@ -5,18 +5,21 @@ public interface DataAccess {
 
     User loadUser(String Username, String password);
 
-    User saveUser(User user);
+    boolean saveUser(User user);
 
-    Post loadPostByID(int postID);
+    List<Apartment> loadAptList();
 
-    Post savePost(Post post);
+    Apartment loadAptByID(int postID);
 
-    List<Post> loadPostByPrice(double min, double max);
+    boolean saveApt(Apartment post);
 
-    List<Post> loadPostByType(String type);
+    List<Apartment> loadAptByPrice(double min, double max);
 
-    WishPost savePost2WishList(Post post);
+    List<Apartment> loadAptByType(String type);
 
-    WishPost loadWishPostByUserID(int userID);
+    WishApt saveApt2WishList(Post post);
 
+    List<Integer> loadWishListByUserID(int userID);
+
+    User loadUserByID(int ID);
 }

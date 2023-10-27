@@ -17,7 +17,7 @@ public class AptListController implements ListSelectionListener {
             if (selectedRow >= 0) {
                 String idS = screen.getTblApts().getValueAt(selectedRow, 0).toString();
                 int id = Integer.parseInt(idS);
-                apartment = AptAppManager.getInstance().getDataAdapter().loadApartment(id);
+                apartment = AptAppManager.getInstance().getDataAdapter().loadAptByID(id);
                 User poster = AptAppManager.getInstance().getDataAdapter().loadUserByID(apartment.getPosterID());
 
                 AptDetailScreen aptDetailScreen = AptAppManager.getInstance().getAptDetailScreen();
