@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.List;
 import java.util.ArrayList;
 
-public class SQLDataAdapter implements DataAccess {
+public class SQLiteDataAdapter implements DataAccess {
     private Connection connection;
     private int lastPostID;
 
@@ -12,7 +12,7 @@ public class SQLDataAdapter implements DataAccess {
         return lastPostID;
     }
 
-    public SQLDataAdapter(Connection connection) {
+    public SQLiteDataAdapter(Connection connection) {
         this.connection = connection;
     }
 
