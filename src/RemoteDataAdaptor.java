@@ -53,6 +53,7 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public User loadUser(String username, String password) {
+        Conn();
         ArrayList<String> args = new ArrayList<>();
         args.add(username);
         args.add(password);
