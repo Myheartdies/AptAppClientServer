@@ -19,6 +19,7 @@ public class AptListController implements ListSelectionListener, ActionListener 
         apartment = new Apartment();
         screen.btnSearchByPrice.addActionListener(this);
         screen.btnSearchByType.addActionListener(this);
+        screen.btnReset.addActionListener(this);
     }
 
     @Override
@@ -28,6 +29,8 @@ public class AptListController implements ListSelectionListener, ActionListener 
         }
         else if (e.getSource() == screen.btnSearchByType) {      // button Save is clicked
             searchByType();
+        } else if (e.getSource() == screen.btnReset) {
+            screen.setAptList(myDAO.loadAptList());
         }
     }
 

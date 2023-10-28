@@ -41,6 +41,7 @@ public class AptListScreen extends JFrame {
     public JLabel labelHigh = new JLabel("High");
     public JButton btnSearchByPrice = new JButton("Search By Price");
     public JButton btnSearchByType = new JButton("Search By Type");
+    public JButton btnReset = new JButton("Reset");
 
 
     public AptListScreen() {
@@ -68,6 +69,10 @@ public class AptListScreen extends JFrame {
                 6, 6,        //initX, initY
                 6, 6);       //xPad, yPad
         this.getContentPane().add(pSearchByType);
+
+        JPanel pResetBtn = new JPanel();
+        pResetBtn.add(btnReset);
+        this.getContentPane().add(pResetBtn);
 
         apts.addColumn("ApartmentID");
         apts.addColumn("Apartment Name");
