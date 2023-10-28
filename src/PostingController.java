@@ -78,9 +78,9 @@ public class PostingController implements ActionListener {
         aptPost.setDescr(description);
         if (AptAppManager.getInstance().getDataAccess().saveApt(aptPost)) {
             // int postID = AptAppManager.getInstance().getDataAccess().getLastPostID();
-            int postID = 1111;
+            // int postID = 1111;
             Object[] row = new Object[5];
-            row[0] = postID;
+            row[0] = aptPost.getID();
             row[1] = aptPost.getAptName();
             row[2] = aptPost.getType();
             row[3] = aptPost.getPrice();

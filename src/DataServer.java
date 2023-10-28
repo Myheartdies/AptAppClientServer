@@ -100,33 +100,22 @@ class ClientHandler {
             }
 
             ResponseModel res = new ResponseModel();
+            res.code = ResponseModel.UNKNOWN_REQUEST;
             res.body = null;
             if (req.code == RequestModel.USER_LOGIN) {
-                System.out.println("The Client asks for load user");
-                System.out.println("Body: " + req.body);
-                ArrayList<String> args = gson.fromJson(req.body, new TypeToken<ArrayList<String>>() {
-                }.getType());
-                // System.out.println("Serialized ");
-                if (args.size() < 2) {
-                    res.code = ResponseModel.DATA_NOT_FOUND;
-                    res.body = null;
-                } else {
-                    User user = dao.loadUser(args.get(0), args.get(1));
-                    if (user != null) {
-                        res.code = ResponseModel.OK;
-                        res.body = gson.toJson(user);
-                    } else {
-                        res.code = ResponseModel.DATA_NOT_FOUND;
-                        // res.body = null;
-                    }
-                }
+                LoginReq(req, res);
             } else if (req.code == RequestModel.SAVE_USER_REQEUST) {
+                RegisterReq(req, res);
             } else if (req.code == RequestModel.LOAD_USER_BY_ID) {
+                LoadUserByIDReq(req, res);
             } else if (req.code == RequestModel.SAVE_POST_REQUEST) {
+                SaveAptReq(req, res);
             } else if (req.code == RequestModel.LOAD_POST_REQUEST) {
+                LoadOneAptReq(req, res);
             } else if (req.code == RequestModel.LOAD_POST_BY_PRICE) {
             } else if (req.code == RequestModel.LOAD_POST_BY_TYPE) {
             } else if (req.code == RequestModel.LOAD_POST_ALL) {
+                LoadAllApts(req, res);
             } else if (req.code == RequestModel.SAVE_APT_TO_WISHLIST) {
             } else if (req.code == RequestModel.LOAD_WISHLIST_BY_USERID) {
                 res = loadWishListByUserID(req);
@@ -144,6 +133,7 @@ class ClientHandler {
         }
     }
 
+
     private ResponseModel loadWishListByUserID(RequestModel req) {
         ResponseModel res = new ResponseModel();
         User userReq = gson.fromJson(req.body, User.class);
@@ -159,5 +149,103 @@ class ClientHandler {
         }
 
         return res;
+    }
+
+    private void LoginReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for load user");
+        System.out.println("Body: " + req.body);
+        ArrayList<String> args = gson.fromJson(req.body, new TypeToken<ArrayList<String>>() {
+        }.getType());
+        // System.out.println("Serialized ");
+        if (args.size() < 2) {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = null;
+        } else {
+            User user = dao.loadUser(args.get(0), args.get(1));
+            if (user != null) {
+                res.code = ResponseModel.OK;
+                res.body = gson.toJson(user);
+            } else {
+                res.code = ResponseModel.DATA_NOT_FOUND;
+            }
+        }
+    }
+
+    private void RegisterReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for save user");
+        System.out.println("Body: " + req.body);
+        User user = gson.fromJson(req.body, User.class);
+        if (dao.saveUser(user)) {
+            res.code = ResponseModel.OK;
+            res.body = Integer.toString(user.getUserID());
+        } else {
+            res.code = ResponseModel.SAVE_FAILED;
+            res.body = null;
+        }
+
+    }
+
+    private void SaveAptReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for save apartment");
+        System.out.println("Body: " + req.body);
+        Apartment apartment = gson.fromJson(req.body, Apartment.class);
+        if (dao.saveApt(apartment)) {
+            res.code = ResponseModel.OK;
+            res.body = Integer.toString(apartment.getID());
+        } else {
+            res.code = ResponseModel.SAVE_FAILED;
+            res.body = null;
+        }
+    }
+
+    private void LoadAllApts(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for all apartment listings");
+        System.out.println("Body: " + req.body);
+        List<Apartment> listings = dao.loadAptList();
+        if (listings == null) {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = null;
+        } else {
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(listings);
+        }
+    }
+
+    private void LoadOneAptReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for single apartment info");
+        System.out.println("Body: " + req.body);
+        try {
+            Apartment apt = dao.loadAptByID(Integer.parseInt(req.body));
+            if (apt == null) {
+                res.code = ResponseModel.DATA_NOT_FOUND;
+                res.body = null;
+                return;
+            }
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(apt);
+        } catch (Exception e) {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = null;
+            e.printStackTrace();
+        }
+    }
+
+    private void LoadUserByIDReq(RequestModel req, ResponseModel res) {
+        System.out.println("The Client asks for a user with userID");
+        System.out.println("Body: " + req.body);
+        try {
+            User user = dao.loadUserByID(Integer.parseInt(req.body));
+            if (user == null) {
+                res.code = ResponseModel.DATA_NOT_FOUND;
+                res.body = null;
+                return;
+            }
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(user);
+        } catch (Exception e) {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = null;
+            e.printStackTrace();
+        }
     }
 }
