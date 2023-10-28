@@ -18,6 +18,7 @@ public class AptListController implements ListSelectionListener, ActionListener 
         screen.getTblApts().getSelectionModel().addListSelectionListener(this);
         apartment = new Apartment();
         screen.btnSearchByPrice.addActionListener(this);
+        screen.btnSearchByType.addActionListener(this);
     }
 
     @Override
@@ -25,9 +26,23 @@ public class AptListController implements ListSelectionListener, ActionListener 
         if (e.getSource() == screen.btnSearchByPrice) {      // button Load is clicked
             searchByPrice();
         }
-//        else if (e.getSource() == myView.getBtnSave()) {      // button Save is clicked
-//            saveProduct();
-//        }
+        else if (e.getSource() == screen.btnSearchByType) {      // button Save is clicked
+            searchByType();
+        }
+    }
+
+    private void searchByType() {
+        List<Apartment> apartments = new ArrayList<>();
+        try {
+            String aptType = (String) screen.typeSelect.getSelectedItem();
+            apartments = myDAO.loadAptByType(aptType);
+            screen.setAptList(apartments);
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Invalid format for numbers!");
+            ex.printStackTrace();
+        }
     }
 
     private void searchByPrice() {
@@ -39,7 +54,8 @@ public class AptListController implements ListSelectionListener, ActionListener 
             screen.setAptList(apartments);
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Invalid format for numbers!");
+            JOptionPane.showMessageDialog(null,
+                    "Invalid format for numbers!");
             ex.printStackTrace();
         }
     }

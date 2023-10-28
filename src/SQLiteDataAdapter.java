@@ -257,8 +257,35 @@ public class SQLiteDataAdapter implements DataAccess {
 
     @Override
     public List<Apartment> loadAptByType(String type) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadAptByType'");
+        List<Apartment> apartments = new ArrayList<>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT * FROM RentalApartments WHERE Type = ?"
+            );
+            stmt.setString(1, type);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Apartment apartment = new Apartment();
+                apartment.setID(rs.getInt("ApartmentID"));
+                apartment.setAptName(rs.getString("AptName"));
+                apartment.setType(rs.getString("Type"));
+                apartment.setPrice(rs.getDouble("Price"));
+                apartment.setArea(rs.getDouble("Area"));
+                apartment.setAddress(rs.getString("Address"));
+                apartment.setDescr(rs.getString("Description"));
+                apartment.setAvailableDate(rs.getString("AvailableTime"));
+                apartment.setPosterID(rs.getInt("PostUserID"));
+
+                apartments.add(apartment);
+            }
+
+            rs.close();
+            stmt.close();
+            return apartments;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override

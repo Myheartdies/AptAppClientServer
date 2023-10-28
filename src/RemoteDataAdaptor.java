@@ -219,8 +219,34 @@ public class RemoteDataAdaptor implements DataAccess {
     @Override
     public List<Apartment> loadAptByType(String type) {
         Conn();
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadAptByType'");
+        RequestModel req = new RequestModel();
+        req.code = req.LOAD_POST_BY_TYPE;
+        req.body = gson.toJson(type);
+        String json = gson.toJson(req);
+        try {
+            dos.writeUTF(json);
+            String received = dis.readUTF();
+            System.out.println("Server Response: " + received);
+            ResponseModel res = gson.fromJson(received, ResponseModel.class);
+            if (res.code == ResponseModel.UNKNOWN_REQUEST) {
+                System.out.println("The request is not recognized by the Server");
+                return null;
+            } else {
+                if (res.code == ResponseModel.DATA_NOT_FOUND) {
+                    System.out.println("Cannot be found");
+                    return null;
+                } else {
+                    Type listType = new TypeToken<List<Apartment>>() {}.getType();
+                    List<Apartment> apartments = gson.fromJson(res.body, listType);
+                    return apartments;
+                }
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override

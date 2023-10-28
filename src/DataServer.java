@@ -116,6 +116,7 @@ class ClientHandler {
             } else if (req.code == RequestModel.LOAD_POST_BY_PRICE) {
                 res = searchAptByPrice(req);
             } else if (req.code == RequestModel.LOAD_POST_BY_TYPE) {
+                res = searchAptByType(req);
             } else if (req.code == RequestModel.LOAD_POST_ALL) {
                 LoadAllApts(req, res);
             } else if (req.code == RequestModel.SAVE_APT_TO_WISHLIST) {
@@ -134,6 +135,21 @@ class ClientHandler {
         IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private ResponseModel searchAptByType(RequestModel req) {
+        ResponseModel res = new ResponseModel();
+        String aptType = gson.fromJson(req.body, String.class);
+        List<Apartment> apartments = dao.loadAptByType(aptType);
+        if (apartments != null) {
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(apartments);
+        }
+        else {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = "";
+        }
+        return res;
     }
 
     private ResponseModel searchAptByPrice(RequestModel req) {

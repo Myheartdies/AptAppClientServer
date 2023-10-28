@@ -37,9 +37,10 @@ public class AptListScreen extends JFrame {
     private String[] types = { "1b1b", "2b2b" };
     public JComboBox<String> typeSelect = new JComboBox<>(types);
 
-    JLabel labelLow = new JLabel("Low");
-    JLabel labelHigh = new JLabel("High");
-    JButton btnSearchByPrice = new JButton("Search By Price");
+    public JLabel labelLow = new JLabel("Low");
+    public JLabel labelHigh = new JLabel("High");
+    public JButton btnSearchByPrice = new JButton("Search By Price");
+    public JButton btnSearchByType = new JButton("Search By Type");
 
 
     public AptListScreen() {
@@ -47,17 +48,26 @@ public class AptListScreen extends JFrame {
         this.setBounds(750, 260, 550, 500);
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
-        JPanel main = new JPanel(new SpringLayout());
-        main.add(labelLow);
-        main.add(txtSearchByPriceLow);
-        main.add(labelHigh);
-        main.add(txtSearchByPriceHigh);
-        main.add(btnSearchByPrice);
-        SpringUtilities.makeCompactGrid(main,
+        JPanel pSearchByPrice = new JPanel(new SpringLayout());
+        pSearchByPrice.add(labelLow);
+        pSearchByPrice.add(txtSearchByPriceLow);
+        pSearchByPrice.add(labelHigh);
+        pSearchByPrice.add(txtSearchByPriceHigh);
+        pSearchByPrice.add(btnSearchByPrice);
+        SpringUtilities.makeCompactGrid(pSearchByPrice,
                 1, 5, //rows, cols
                 6, 6,        //initX, initY
                 6, 6);       //xPad, yPad
-        this.getContentPane().add(main);
+        this.getContentPane().add(pSearchByPrice);
+
+        JPanel pSearchByType = new JPanel(new SpringLayout());
+        pSearchByType.add(typeSelect);
+        pSearchByType.add(btnSearchByType);
+        SpringUtilities.makeCompactGrid(pSearchByType,
+                1, 2, //rows, cols
+                6, 6,        //initX, initY
+                6, 6);       //xPad, yPad
+        this.getContentPane().add(pSearchByType);
 
         apts.addColumn("ApartmentID");
         apts.addColumn("Apartment Name");
