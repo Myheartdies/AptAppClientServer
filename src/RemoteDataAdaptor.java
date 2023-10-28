@@ -53,7 +53,6 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public User loadUser(String username, String password) {
-        Conn();
         ArrayList<String> args = new ArrayList<>();
         args.add(username);
         args.add(password);
@@ -81,7 +80,6 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public boolean saveUser(User user) {
-        Conn();
         String json = generateReq(RequestModel.SAVE_USER_REQEUST, user);
         // System.out.println(json);
         try {

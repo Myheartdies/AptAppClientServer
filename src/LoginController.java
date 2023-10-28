@@ -45,21 +45,19 @@ public class LoginController {
         if (AptAppManager.getInstance().getDataAccess().saveUser(user)) {
             // If register is successful, log the user in
             AptAppManager.getInstance().getRegScreen().setVisible(false);
-//            AptAppManager.getInstance().getLoginScreen().setVisible(false);
-//            AptAppManager.getInstance().setCurrentUser(user);
-//            AptAppManager.getInstance().getMainScreen().setVisible(true);
+            AptAppManager.getInstance().getLoginScreen().setVisible(false);
+            AptAppManager.getInstance().setCurrentUser(user);
+            AptAppManager.getInstance().getMainScreen().setVisible(true);
+            WishListScreen wishListScreen = AptAppManager.getInstance().getWishListScreen();
+            wishListScreen.setAptList(
+                    AptAppManager.getInstance().getDataAccess().loadWishListByUserID(user.getUserID()));
+
+            AptListScreen aptListScreen = AptAppManager.getInstance().getAptList();
+            aptListScreen.setAptList(AptAppManager.getInstance().getDataAccess().loadAptList());
         } else {
             JOptionPane.showMessageDialog(null, "username already exists!");
             return;
         }
-
-//        if (user == null) {
-//            JOptionPane.showMessageDialog(null, "This user does not exist!");
-//        } else {
-//            AptAppManager.getInstance().setCurrentUser(user);
-//            AptAppManager.getInstance().getLoginScreen().setVisible(false);
-//            AptAppManager.getInstance().getMainScreen().setVisible(true);
-//        }
     }
 
 }
