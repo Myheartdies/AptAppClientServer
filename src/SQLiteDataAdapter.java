@@ -240,9 +240,25 @@ public class SQLiteDataAdapter implements DataAccess {
     }
 
     @Override
-    public List<Integer> loadWishListByUserID(int userID) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadWishListByUserID'");
+    public List<Apartment> loadWishListByUserID(int userID) {
+        List<Apartment> apartments = new ArrayList<>();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT * FROM WishList WHERE UserID = " + userID );
+            while (rs.next()) {
+                int apartmentId = rs.getInt("ApartmentID");
+                Apartment apartment = loadAptByID(apartmentId);
+
+                apartments.add(apartment);
+            }
+            return apartments;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 
 }

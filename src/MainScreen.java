@@ -13,16 +13,18 @@ public class MainScreen extends JFrame {
     private JButton btnPost = new JButton("Post a listing");
     // The label of the new username panel, at class scope so it can be access by
     // the event listener
+    private JButton btnWithList = new JButton("Wish List");
     private JLabel userLabel = new JLabel("User: ");
     private JLabel nameLabel = new JLabel("Name: ");
 
-    public MainScreen() {
+    public MainScreen(DataAccess dao) {
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(650, 350, 400, 300);
+        this.setBounds(650, 350, 500, 300);
 
         btnListing.setPreferredSize(new Dimension(140, 50));
         btnPost.setPreferredSize(new Dimension(140, 50));
+        btnWithList.setPreferredSize(new Dimension(140, 50));
 
         JLabel title = new JLabel("Rental sharing System");
         title.setAlignmentY(CENTER_ALIGNMENT);
@@ -47,7 +49,7 @@ public class MainScreen extends JFrame {
         JPanel panelButton = new JPanel();
         panelButton.add(btnListing);
         panelButton.add(btnPost);
-
+        panelButton.add(btnWithList);
         this.getContentPane().add(panelButton);
 
         btnListing.addActionListener(new ActionListener() { // when controller is simple, we can declare it on the fly
@@ -64,10 +66,19 @@ public class MainScreen extends JFrame {
                 AptAppManager.getInstance().getNewPostScreen().setVisible(true);
             }
         });
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
                 onWindowOpen();
+            }
+        });
+
+        // check the wishlist
+        btnWithList.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                WishListScreen wishListScreen = AptAppManager.getInstance().getWishListScreen();
+                wishListScreen.setVisible(true);
             }
         });
     }

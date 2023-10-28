@@ -122,14 +122,14 @@ class ClientHandler {
                 }
             } else if (req.code == RequestModel.SAVE_USER_REQEUST) {
             } else if (req.code == RequestModel.LOAD_USER_BY_ID) {
-               
             } else if (req.code == RequestModel.SAVE_POST_REQUEST) {
             } else if (req.code == RequestModel.LOAD_POST_REQUEST) {
             } else if (req.code == RequestModel.LOAD_POST_BY_PRICE) {
             } else if (req.code == RequestModel.LOAD_POST_BY_TYPE) {
             } else if (req.code == RequestModel.LOAD_POST_ALL) {
-            } else if (req.code == RequestModel.SAVE_POST_WISHLIST) {
-            } else if (req.code == RequestModel.LOAD_POST_WISHLIST_USER) {
+            } else if (req.code == RequestModel.SAVE_APT_TO_WISHLIST) {
+            } else if (req.code == RequestModel.LOAD_WISHLIST_BY_USERID) {
+                res = loadWishListByUserID(req);
             }
 
             String json = gson.toJson(res);
@@ -142,5 +142,22 @@ class ClientHandler {
         IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private ResponseModel loadWishListByUserID(RequestModel req) {
+        ResponseModel res = new ResponseModel();
+        User userReq = gson.fromJson(req.body, User.class);
+        int userID = userReq.getUserID();
+        List<Apartment> apartments = dao.loadWishListByUserID(userID);
+
+        if (apartments != null) {
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(apartments);
+        } else {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = "";
+        }
+
+        return res;
     }
 }

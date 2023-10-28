@@ -30,7 +30,7 @@ public class AptAppManager {
         this.currentUser = user;
     }
 
-    private MainScreen mainScreen = new MainScreen();
+    private MainScreen mainScreen = null;
     private RegisterScreen regScreen = new RegisterScreen();
     private AptListScreen aptList = new AptListScreen();
     private PostScreen postingScreen = new PostScreen();
@@ -90,11 +90,23 @@ public class AptAppManager {
         return dataAccess;
     }
 
+    private WishListScreen wishListScreen = null;
+
+    public WishListScreen getWishListScreen() {
+        return wishListScreen;
+    }
+
+    private RemoteDataAdaptor dao;
+
     private AptAppManager() {
-        // create SQLite database connection here!
-
         dataAccess = new RemoteDataAdaptor();
+        dataAccess.Conn();
 
+        mainScreen = new MainScreen(dataAccess);
+        // create SQLite database connection here!
+        wishListScreen = new WishListScreen();
+
+        loginScreenCtrl = new LoginController();
         postingCtrl = new PostingController(newPostScreen);
         aptListController = new AptListController(aptList);
     }

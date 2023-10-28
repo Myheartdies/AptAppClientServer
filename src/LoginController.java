@@ -19,6 +19,9 @@ public class LoginController {
             AptAppManager.getInstance().setCurrentUser(user);
             AptAppManager.getInstance().getLoginScreen().setVisible(false);
             AptAppManager.getInstance().getMainScreen().setVisible(true);
+            WishListScreen wishListScreen = AptAppManager.getInstance().getWishListScreen();
+            wishListScreen.setAptList(
+                    AptAppManager.getInstance().getDataAccess().loadWishListByUserID(user.getUserID()));
         }
     }
 
