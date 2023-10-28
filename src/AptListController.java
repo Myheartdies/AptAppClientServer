@@ -1,14 +1,47 @@
+import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-public class AptListController implements ListSelectionListener {
+public class AptListController implements ListSelectionListener, ActionListener {
     private AptListScreen screen;
     Apartment apartment = null;
 
-    public AptListController(AptListScreen screen) {
+    DataAccess myDAO;
+
+    public AptListController(AptListScreen screen, DataAccess dao) {
         this.screen = screen;
+        this.myDAO = dao;
         screen.getTblApts().getSelectionModel().addListSelectionListener(this);
         apartment = new Apartment();
+        screen.btnSearchByPrice.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == screen.btnSearchByPrice) {      // button Load is clicked
+            searchByPrice();
+        }
+//        else if (e.getSource() == myView.getBtnSave()) {      // button Save is clicked
+//            saveProduct();
+//        }
+    }
+
+    private void searchByPrice() {
+        List<Apartment> apartments = new ArrayList<>();
+        try {
+            double low = Double.parseDouble(screen.txtSearchByPriceLow.getText());
+            double high = Double.parseDouble(screen.txtSearchByPriceHigh.getText());
+            apartments = myDAO.loadAptByPrice(low, high);
+            screen.setAptList(apartments);
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Invalid format for numbers!");
+            ex.printStackTrace();
+        }
     }
 
     public void valueChanged(ListSelectionEvent e) {

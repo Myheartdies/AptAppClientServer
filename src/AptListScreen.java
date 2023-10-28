@@ -32,12 +32,32 @@ public class AptListScreen extends JFrame {
             apts.addRow(row);
         }
     }
+    public JTextField txtSearchByPriceLow = new JTextField(3);
+    public JTextField txtSearchByPriceHigh = new JTextField(3);
+    private String[] types = { "1b1b", "2b2b" };
+    public JComboBox<String> typeSelect = new JComboBox<>(types);
+
+    JLabel labelLow = new JLabel("Low");
+    JLabel labelHigh = new JLabel("High");
+    JButton btnSearchByPrice = new JButton("Search By Price");
+
 
     public AptListScreen() {
         this.setTitle("Apartment listings");
+        this.setBounds(750, 260, 550, 500);
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-        this.setBounds(750, 200, 550, 650);
-        this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+
+        JPanel main = new JPanel(new SpringLayout());
+        main.add(labelLow);
+        main.add(txtSearchByPriceLow);
+        main.add(labelHigh);
+        main.add(txtSearchByPriceHigh);
+        main.add(btnSearchByPrice);
+        SpringUtilities.makeCompactGrid(main,
+                1, 5, //rows, cols
+                6, 6,        //initX, initY
+                6, 6);       //xPad, yPad
+        this.getContentPane().add(main);
 
         apts.addColumn("ApartmentID");
         apts.addColumn("Apartment Name");

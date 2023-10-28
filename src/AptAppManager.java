@@ -113,7 +113,7 @@ public class AptAppManager {
 
         loginScreenCtrl = new LoginController();
         postingCtrl = new PostingController(newPostScreen);
-        aptListController = new AptListController(aptList);
+        aptListController = new AptListController(aptList, dataAccess);
         aptDetailController = new AptDetailController(aptDetailScreen, dataAccess);
     }
 }

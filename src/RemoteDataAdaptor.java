@@ -183,8 +183,37 @@ public class RemoteDataAdaptor implements DataAccess {
     @Override
     public List<Apartment> loadAptByPrice(double min, double max) {
         Conn();
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadAptByPrice'");
+        RequestModel req = new RequestModel();
+        req.code = req.LOAD_POST_BY_PRICE;
+        JsonObject priceRange = new JsonObject();
+        priceRange.addProperty("min", min);
+        priceRange.addProperty("max", max);
+        req.body = gson.toJson(priceRange);
+        String json = gson.toJson(req);
+        try {
+            dos.writeUTF(json);
+            String received = dis.readUTF();
+            System.out.println("Server Response: " + received);
+            ResponseModel res = gson.fromJson(received, ResponseModel.class);
+            if (res.code == ResponseModel.UNKNOWN_REQUEST) {
+                System.out.println("The request is not recognized by the Server");
+                return null;
+            } else {
+                if (res.code == ResponseModel.DATA_NOT_FOUND) {
+                    System.out.println("The Server could not find products within that price range!");
+                    return null;
+                } else {
+                    Type listType = new TypeToken<List<Apartment>>() {}.getType();
+                    List<Apartment> apartments = gson.fromJson(res.body, listType);
+                    return apartments;
+                }
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.util.*;
 import java.net.*;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 public class DataServer {
@@ -113,6 +114,7 @@ class ClientHandler {
             } else if (req.code == RequestModel.LOAD_POST_REQUEST) {
                 LoadOneAptReq(req, res);
             } else if (req.code == RequestModel.LOAD_POST_BY_PRICE) {
+                res = searchAptByPrice(req);
             } else if (req.code == RequestModel.LOAD_POST_BY_TYPE) {
             } else if (req.code == RequestModel.LOAD_POST_ALL) {
                 LoadAllApts(req, res);
@@ -134,6 +136,22 @@ class ClientHandler {
         }
     }
 
+    private ResponseModel searchAptByPrice(RequestModel req) {
+        ResponseModel res = new ResponseModel();
+        JsonObject priceRange = gson.fromJson(req.body, JsonObject.class);
+        double min = priceRange.get("min").getAsDouble();
+        double max = priceRange.get("max").getAsDouble();
+        List<Apartment> apartments = dao.loadAptByPrice(min, max);
+        if (apartments != null) {
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(apartments);
+        }
+        else {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = "";
+        }
+        return res;
+    }
 
     private ResponseModel loadWishListByUserID(RequestModel req) {
         ResponseModel res = new ResponseModel();
