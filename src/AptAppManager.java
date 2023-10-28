@@ -96,19 +96,24 @@ public class AptAppManager {
         return wishListScreen;
     }
 
-    private RemoteDataAdaptor dao;
+    private AptDetailController aptDetailController = null;
+
+    public AptDetailController getAptDetailController() {
+        return aptDetailController;
+    }
 
     private AptAppManager() {
         dataAccess = new RemoteDataAdaptor();
         dataAccess.Conn();
 
-        mainScreen = new MainScreen(dataAccess);
+        mainScreen = new MainScreen();
         // create SQLite database connection here!
         wishListScreen = new WishListScreen();
+        aptDetailScreen = new AptDetailScreen();
 
         loginScreenCtrl = new LoginController();
         postingCtrl = new PostingController(newPostScreen);
         aptListController = new AptListController(aptList);
+        aptDetailController = new AptDetailController(aptDetailScreen, dataAccess);
     }
-
 }

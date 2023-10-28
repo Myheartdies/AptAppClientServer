@@ -17,7 +17,7 @@ public class MainScreen extends JFrame {
     private JLabel userLabel = new JLabel("User: ");
     private JLabel nameLabel = new JLabel("Name: ");
 
-    public MainScreen(DataAccess dao) {
+    public MainScreen() {
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(650, 350, 500, 300);

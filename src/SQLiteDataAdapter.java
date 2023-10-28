@@ -235,9 +235,34 @@ public class SQLiteDataAdapter implements DataAccess {
     }
 
     @Override
-    public WishApt saveApt2WishList(Post post) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveApt2WishList'");
+    public WishApt saveApt2WishList(WishApt wishApt) {
+        try {
+            PreparedStatement checkStmt = connection.prepareStatement(
+                    "SELECT EXISTS (SELECT 1 FROM WishList WHERE ApartmentID = ? AND UserID = ?)");
+            checkStmt.setInt(1, wishApt.aptID);
+            checkStmt.setInt(2, wishApt.userID);
+
+            ResultSet resultSet = checkStmt.executeQuery();
+            // if not exist, then insert
+            if (resultSet.next() && resultSet.getInt(1) == 0) {
+                PreparedStatement insertStmt = connection.prepareStatement(
+                        "INSERT INTO WishList VALUES (?, ?)");
+                insertStmt.setInt(1, wishApt.aptID);
+                insertStmt.setInt(2, wishApt.userID);
+
+                insertStmt.execute();
+                insertStmt.close();
+            }
+
+            resultSet.close();
+            checkStmt.close();
+
+            return wishApt;
+        } catch (SQLException e) {
+            System.out.println("Database access error!");
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -250,16 +275,12 @@ public class SQLiteDataAdapter implements DataAccess {
             while (rs.next()) {
                 int apartmentId = rs.getInt("ApartmentID");
                 Apartment apartment = loadAptByID(apartmentId);
-
                 apartments.add(apartment);
             }
             return apartments;
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         return null;
     }
-
 }

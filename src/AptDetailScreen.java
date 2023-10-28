@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AptDetailScreen extends JFrame {
-    private JButton btnAddWishList = new JButton("Add to wish list");
+    public JButton btnAddWishList = new JButton("Add to wish list");
     private JLabel propertyName = new JLabel("");
     private JLabel type = new JLabel("");
     private JLabel address = new JLabel("");
@@ -53,7 +53,7 @@ public class AptDetailScreen extends JFrame {
 
         this.setTitle("Create New Listing for Apartment");
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
-        this.setSize(550, 650);
+        this.setBounds(700, 200, 550, 650);
 
         Font titleFont = new Font(propertyName.getFont().getName(), Font.PLAIN, 24);
         propertyName.setFont(titleFont);
@@ -113,5 +113,11 @@ public class AptDetailScreen extends JFrame {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // 禁用水平滚动条
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); // 根据需要显示垂直滚动条
         this.getContentPane().add(scrollPane);
+
+        btnAddWishList.setPreferredSize(new Dimension(140, 50));
+        JPanel panelButton = new JPanel();
+        panelButton.add(btnAddWishList);
+        this.getContentPane().add(panelButton);
+
     }
 }

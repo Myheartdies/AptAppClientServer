@@ -117,6 +117,7 @@ class ClientHandler {
             } else if (req.code == RequestModel.LOAD_POST_ALL) {
                 LoadAllApts(req, res);
             } else if (req.code == RequestModel.SAVE_APT_TO_WISHLIST) {
+                res = saveApt2WishList(req);
             } else if (req.code == RequestModel.LOAD_WISHLIST_BY_USERID) {
                 res = loadWishListByUserID(req);
             }
@@ -148,6 +149,20 @@ class ClientHandler {
             res.body = "";
         }
 
+        return res;
+    }
+
+    private ResponseModel saveApt2WishList(RequestModel req) {
+        ResponseModel res = new ResponseModel();
+        WishApt wishAptReq = gson.fromJson(req.body, WishApt.class);
+        WishApt wishAptRes = dao.saveApt2WishList(wishAptReq);
+        if (wishAptRes != null) {
+            res.code = ResponseModel.OK;
+            res.body = gson.toJson(wishAptRes);
+        } else {
+            res.code = ResponseModel.DATA_NOT_FOUND;
+            res.body = "";
+        }
         return res;
     }
 

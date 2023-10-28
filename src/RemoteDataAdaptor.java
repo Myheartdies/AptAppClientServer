@@ -162,7 +162,6 @@ public class RemoteDataAdaptor implements DataAccess {
         try {
             ResponseModel res = getResponse(json);
             // User user = gson.fromJson(res.body, User.class);
-
             if (res.code == ResponseModel.UNKNOWN_REQUEST) {
                 System.out.println("The request is not recognized by the Server");
                 return false;
@@ -183,20 +182,51 @@ public class RemoteDataAdaptor implements DataAccess {
 
     @Override
     public List<Apartment> loadAptByPrice(double min, double max) {
+        Conn();
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'loadAptByPrice'");
     }
 
     @Override
     public List<Apartment> loadAptByType(String type) {
+        Conn();
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'loadAptByType'");
     }
 
     @Override
-    public WishApt saveApt2WishList(Post post) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveApt2WishList'");
+    public WishApt saveApt2WishList(WishApt wishApt) {
+        Conn();
+        RequestModel req = new RequestModel();
+        req.code = req.SAVE_APT_TO_WISHLIST;
+        req.body = gson.toJson(wishApt);
+
+        String json = gson.toJson(req);
+        try {
+            dos.writeUTF(json);
+            String received = dis.readUTF();
+            System.out.println("Server response:" + received);
+            ResponseModel res = gson.fromJson(received, ResponseModel.class);
+
+            if (res.code == ResponseModel.UNKNOWN_REQUEST) {
+                System.out.println("The request is not recognized by the Server");
+                return null;
+            }
+            else         // this is a JSON string for a product information
+                if (res.code == ResponseModel.SAVE_FAILED) {
+                    System.out.println("Save Failed!");
+                    return null;
+                }
+                else {
+                    System.out.println("Save Successfully!");
+                    WishApt wishAptRes = gson.fromJson(req.body, WishApt.class);
+                    return wishAptRes;
+                }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override

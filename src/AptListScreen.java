@@ -36,7 +36,7 @@ public class AptListScreen extends JFrame {
     public AptListScreen() {
         this.setTitle("Apartment listings");
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-        this.setSize(500, 600);
+        this.setBounds(750, 200, 550, 650);
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
         apts.addColumn("ApartmentID");

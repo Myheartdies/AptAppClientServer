@@ -19,7 +19,7 @@ public interface DataAccess {
 
     List<Apartment> loadAptByType(String type);
 
-    WishApt saveApt2WishList(Post post);
+    WishApt saveApt2WishList(WishApt wishApt);
 
     List<Apartment> loadWishListByUserID(int userID);
 
